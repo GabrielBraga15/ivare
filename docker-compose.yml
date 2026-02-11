@@ -1,18 +1,34 @@
 services:
-  mysql:
+  db:
     image: mysql:8.0
     container_name: mysql_pet_api
-    restart: always
+    restart: unless-stopped
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: pet_vaccine_api
       MYSQL_USER: petuser
       MYSQL_PASSWORD: petpass
-      MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
-    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: .
+    container_name: django_pet_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   mysql_data:
