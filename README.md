@@ -34,7 +34,8 @@ Cada módulo possui seus próprios models, serializers, views e rotas, facilitan
 ### 1. Clonar o projeto
 
 ```bash
-git clone <repo>
+git clone https://github.com/GabrielBraga15/ivare/
+cd ivare
 cd pet_vaccine_api
 ```
 
@@ -79,8 +80,10 @@ DB_PORT=3306
 ---
 
 ## Banco de dados
-
-Criar banco e usuário MySQL:
+Entrar no docker
+docker exec -it mysql_pet_api mysql -u root -p
+Senha: root
+Logo depois executar o sql abaixo para criar banco e usuário MySQL:
 
 ```sql
 create database pet_vaccine_api character set utf8mb4 collate utf8mb4_unicode_ci;
