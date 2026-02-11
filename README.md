@@ -48,8 +48,10 @@ Rode esse comando para gerar a DJANGO_SECRET_KEY:
 docker compose exec web python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
 ```env
-DJANGO_SECRET_KEY=your_secret_key
+DJANGO_SECRET_KEY=change_me
 DJANGO_DEBUG=1
+DJANGO_ALLOWED_HOSTS=*
+
 DB_NAME=pet_vaccine_api
 DB_USER=petuser
 DB_PASSWORD=petpass
