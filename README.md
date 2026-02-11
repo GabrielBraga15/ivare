@@ -43,6 +43,7 @@ cd ivare
 ## Configuração das variáveis de ambiente
 
 Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
+Rode esse comando para gerar a DJANGO_SECRET_KEY: docker compose exec web python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
 ```env
 DJANGO_SECRET_KEY=your_secret_key
