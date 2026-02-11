@@ -44,7 +44,9 @@ cd ivare
 
 Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
 
-Rode esse comando para gerar a DJANGO_SECRET_KEY:
+Rode esse comando para gerar a DJANGO_SECRET_KEY logo apos subir o container docker no passo 1:
+
+
 docker compose exec web python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
 ```env
