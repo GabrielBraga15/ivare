@@ -98,6 +98,10 @@ flush privileges;
 
 ### 3. Rodar migrations
 
+Ctrl+C
+e
+Exit para sair do MySql
+
 ```bash
 docker compose exec web python manage.py migrate
 ```
