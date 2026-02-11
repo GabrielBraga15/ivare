@@ -1,7 +1,7 @@
 # Pet Vaccine API
 
 API REST desenvolvida para controle de responsáveis, pets, vacinas e registros de vacinação.
-O projeto foi construído seguindo boas práticas de organização em apps Django independentes, autenticação via JWT e estrutura preparada para execução local ou via Docker.
+O projeto foi estruturado seguindo boas práticas de organização em apps Django independentes, autenticação via JWT e execução simplificada utilizando Docker.
 
 ---
 
@@ -12,7 +12,7 @@ O projeto foi construído seguindo boas práticas de organização em apps Djang
 * Django REST Framework
 * JWT Authentication (SimpleJWT)
 * MySQL
-* Docker (opcional)
+* Docker / Docker Compose
 
 ---
 
@@ -29,45 +29,18 @@ Cada módulo possui seus próprios models, serializers, views e rotas, facilitan
 
 ---
 
-## Instalação
-
-### 1. Clonar o projeto
+## Clonando o projeto
 
 ```bash
-git clone https://github.com/GabrielBraga15/ivare/
+git clone https://github.com/GabrielBraga15/ivare.git
 cd ivare
-cd pet_vaccine_api
-```
-
-### 2. Criar ambiente virtual
-
-Linux / Mac:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-
-Windows:
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-```
-
-### 3. Instalar dependências
-
-Voltar para pasta ivare pois lá está o requirements
-```bash
-cd.. 
-pip install -r requirements.txt
 ```
 
 ---
 
 ## Configuração do ambiente
 
-Crie um arquivo `.env` baseado no `.env.example` e configure:
+Crie o arquivo `.env` na raiz do projeto baseado no `.env.example`:
 
 ```
 DJANGO_SECRET_KEY=your_secret_key
@@ -75,46 +48,54 @@ DJANGO_DEBUG=1
 DB_NAME=pet_vaccine_api
 DB_USER=petuser
 DB_PASSWORD=petpass
-DB_HOST=127.0.0.1
+DB_HOST=db
 DB_PORT=3306
 ```
 
 ---
 
-## Banco de dados
-Entrar no docker
-docker exec -it mysql_pet_api mysql -u root -p
-Senha: root
-Logo depois executar o sql abaixo para criar banco e usuário MySQL:
+## Executando com Docker (recomendado)
 
-```sql
-create database pet_vaccine_api character set utf8mb4 collate utf8mb4_unicode_ci;
-create user 'petuser'@'%' identified by 'petpass';
-grant all privileges on pet_vaccine_api.* to 'petuser'@'%';
-flush privileges;
-```
-
-Aplicar migrations:
+### 1. Subir containers
 
 ```bash
-python manage.py migrate
+docker compose up -d --build
 ```
 
-Criar usuário administrador:
+Isso iniciará:
+
+* Container MySQL
+* Container da aplicação Django
+
+---
+
+### 2. Aplicar migrations
 
 ```bash
-python manage.py createsuperuser
+docker compose exec web python manage.py migrate
 ```
 
 ---
 
-## Executando o projeto
+### 3. Criar usuário administrador
 
 ```bash
-python manage.py runserver
+docker compose exec web python manage.py createsuperuser
 ```
 
-Acessos:
+---
+
+### 4. Executar aplicação
+
+Caso o container não esteja executando automaticamente:
+
+```bash
+docker compose exec web python manage.py runserver 0.0.0.0:8000
+```
+
+---
+
+## Acessos
 
 * Admin: http://127.0.0.1:8000/admin/
 * API: http://127.0.0.1:8000/api/
@@ -134,7 +115,7 @@ POST `/api/token/`
 }
 ```
 
-Usar nas requisições protegidas:
+Utilizar nas requisições protegidas:
 
 ```
 Authorization: Bearer ACCESS_TOKEN
@@ -153,10 +134,19 @@ Todos os endpoints exigem autenticação JWT.
 
 ---
 
-## Executando com Docker (opcional)
+## Executando sem Docker (opcional)
+
+Criar ambiente virtual:
 
 ```bash
-docker compose up -d
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Aplicar migrations e executar:
+
+```bash
 python manage.py migrate
 python manage.py runserver
 ```
@@ -165,7 +155,7 @@ python manage.py runserver
 
 ## Observações
 
-* Projeto estruturado em apps independentes seguindo boas práticas Django
-* Autenticação JWT aplicada em toda a API
-* Configuração de ambiente feita via variáveis `.env`
-* Banco MySQL configurado para ambiente local ou containerizado
+* Projeto estruturado seguindo boas práticas Django
+* Configuração via variáveis de ambiente
+* Autenticação JWT aplicada globalmente na API
+* Compatível com execução local ou containerizada
