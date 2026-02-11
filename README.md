@@ -48,7 +48,7 @@ Gerar token:
 POST /api/token/
 
 {
-  "username": "admin",
+  "username": "123456",
   "password": "123456"
 }
 
