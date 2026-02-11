@@ -45,8 +45,11 @@ cd ivare
 Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
 
 PARA GERAR A DJANGO_SECRET_KEY FAÇA ISSO
+
 pip install -r requirements.txt
+
 python -m venv .venv
+
 python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 
 ```env
