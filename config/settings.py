@@ -1,9 +1,16 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
-SECRET_KEY = "#=ehu$+ow^j*c=c=xj6sgebs@7!0u=ohzb$!w8p(by5980obj3"
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret")
+DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
+
+allowed = os.getenv("DJANGO_ALLOWED_HOSTS", "*")
+ALLOWED_HOSTS = [h.strip() for h in allowed.split(",")] if allowed else ["*"]
 
 
 INSTALLED_APPS = [
@@ -47,23 +54,24 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "pet_vaccine_api",
-        "USER": "petuser",
-        "PASSWORD": "petpass",
-        "HOST": "127.0.0.1",
-        "PORT": "3306",
+        "NAME": os.getenv("DB_NAME", "pet_vaccine_api"),
+        "USER": os.getenv("DB_USER", "petuser"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "petpass"),
+        "HOST": os.getenv("DB_HOST", "db"),
+        "PORT": os.getenv("DB_PORT", "3306"),
         "OPTIONS": {"charset": "utf8mb4"},
     }
 }
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-DEBUG = True
-ALLOWED_HOSTS = ["*"]
 
 LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Sao_Paulo"
