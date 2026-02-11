@@ -134,6 +134,11 @@ docker compose exec web python manage.py createsuperuser
 ## Autenticação JWT
 
 Gerar token:
+No Postman use 
+
+127.0.0.1:8000/api/token/
+
+e adicione o body conforme as instruções abaixo
 
 POST `/api/token/`
 
