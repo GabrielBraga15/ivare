@@ -157,7 +157,7 @@ Authorization: Bearer ACCESS_TOKEN
 * `/api/vaccinations/`
 
 Todos os endpoints exigem autenticação JWT.
-
+Todas endpoints são POSTs
 ---
 
 ## Executando localmente sem Docker (opcional)
