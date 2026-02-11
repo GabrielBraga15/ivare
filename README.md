@@ -57,7 +57,9 @@ python -m venv .venv
 
 ### 3. Instalar dependências
 
+Voltar para pasta ivare pois lá está o requirements
 ```bash
+cd.. 
 pip install -r requirements.txt
 ```
 
