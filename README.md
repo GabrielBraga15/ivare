@@ -98,9 +98,7 @@ flush privileges;
 
 ### 3. Rodar migrations
 
-Ctrl+C
-e
-Exit para sair do MySql
+Digite exit para sair do MySql
 
 ```bash
 docker compose exec web python manage.py migrate
@@ -131,8 +129,8 @@ POST `/api/token/`
 
 ```json
 {
-  "username": "admin",
-  "password": "123456"
+  "username": "usuario criado no superuser",
+  "password": "senha criado no superuser"
 }
 ```
 
